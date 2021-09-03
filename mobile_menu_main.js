@@ -1,4 +1,4 @@
-//A part of [[User:Masumrezarock100/mobilemorelinks.js]]
+//this code will give you some useful link on mobile interface
 $.when(mw.loader.using(['mediawiki.util', 'oojs-ui-core','oojs-ui.styles.icons-editing-core', 'oojs-ui.styles.icons-movement', 'oojs-ui.styles.icons-interactions','oojs-ui.styles.icons-content','oojs-ui.styles.icons-wikimedia','oojs-ui.styles.icons-editing-citation'])).then(function () { 
 // JavaScript variables
 var	oobutton = OO.ui.ButtonWidget,
