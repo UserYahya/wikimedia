@@ -231,39 +231,39 @@ hideOnChoose: false
 //Change link order here
 //Don't show if AMC mode is enabled
 if (amcMode == false) {
-$("#p-navigation").append( pageinfoBtn.$element, permalinkBtn.$element, whatlinksBtn.$element );
+$("#siteNotice").append( pageinfoBtn.$element, permalinkBtn.$element, whatlinksBtn.$element );
 }
 // File only buttons
 if ( namespaceNumber == 6 ) {
 //CropTool. Only load on file pages in specified format, and that have files in it (not file redirects.
 if ( document.getElementById('file') && /(PNG|GIF|JPE?G|DJVU|PDF|TIF?F)$/i.test( mw.config.get( 'wgTitle' ) ) ) {
-$("#p-navigation").append( croptoolBtn.$element );
+$("#siteNotice").append( croptoolBtn.$element );
 }
 // Move to Commons start. Doesn't load on Commons and test-wiki
 if ( noticeProject !== "commons" && noticeProject !== "test" ) {
-$("#p-navigation").append( chBtn.$element, etocomBtn.$element );
+$("#siteNotice").append( chBtn.$element, etocomBtn.$element );
 }
 //Move to Commons end
 }
 // Does not load on pages that are not connected to Wikidata
 if ( wikidataId && wikidataId !== null ) {
-$("#p-navigation").append( reasonatorBtn.$element );
+$("#siteNotice").append( reasonatorBtn.$element );
 //  Show if AMC mode is not enabled or it's a main page
 if (amcMode == false || mainpagecheck == true) {
-$("#p-navigation").append( wikidataBtn.$element );
+$("#siteNotice").append( wikidataBtn.$element );
 }
 }
 //Common drop down
-$("#p-navigation").append( commondropdown.$element );
+$("#siteNotice").append( commondropdown.$element );
 //Only load in pages that are in draft or main namespace. Don't load in main page
 if ((pageName.indexOf('Draft:') !== -1) || (namespaceNumber == 0) && (mainpagecheck == null)) {
 //Only load in Wikipedias
 if ( noticeProject === "wikipedia" ) {
-$("#p-navigation").append( toolsdropdown.$element );
+$("#siteNotice").append( toolsdropdown.$element );
 }
 //Only load in English Wikipedia
 if ( mwDBname === "enwiki" ) {
-$("#p-navigation").append( enwikitoolsdropdown.$element );
+$("#siteNotice").append( enwikitoolsdropdown.$element );
 }
 }
 // Article and draft only links end
