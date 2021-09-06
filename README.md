@@ -8,8 +8,8 @@ Installation
 2. Copy the following to the page you have chosen:
 
   ```javascript
-  // [[File:User:He7d3r/Tools/ScoredRevisions.js]] (workaround for [[phab:T35355]])
-  mw.loader.load( '//meta.wikimedia.org/w/index.php?title=User:He7d3r/Tools/ScoredRevisions.js&action=raw&ctype=text/javascript' );
+  // [[File:User:Yahya/mobilemorelinks.js]]
+  mw.loader.load( '//en.wikipedia.org/w/index.php?title=User:Yahya/mobilemorelinks.js&action=raw&ctype=text/javascript' );
   ```
 
 3. Clear the cache of your browser.
@@ -19,4 +19,4 @@ This will import the minified copy of the script I maintain on Meta-wiki.
 
 Disclaimer
 =====================
-This code was mainly written by a retired Wikimedian User:Masumrezarock100 under wikimedias default license CC BY SA . But after his retirement some links stopped working. So I made some change and published here.
+This code was mainly written by a retired Wikimedian User:Masumrezarock100 under wikimedias default license CC BY SA. But after his retirement some links stopped working. So I made some changed and published it here.
