@@ -247,7 +247,7 @@ $("#siteNotice").append( chBtn.$element, etocomBtn.$element );
 }
 // Does not load on pages that are not connected to Wikidata
 if ( wikidataId && wikidataId !== null ) {
-$("#siteNotice").append( reasonatorBtn.$element );
+$("#p-navigation").append( reasonatorBtn.$element );
 //  Show if AMC mode is not enabled or it's a main page
 if (amcMode == false || mainpagecheck == true) {
 $("#siteNotice").append( wikidataBtn.$element );
