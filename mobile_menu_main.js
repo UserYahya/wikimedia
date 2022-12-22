@@ -254,16 +254,16 @@ $("#siteNotice").append( wikidataBtn.$element );
 }
 }
 //Common drop down
-$("#siteNotice").append( commondropdown.$element );
+$("#p-navigation").append( commondropdown.$element );
 //Only load in pages that are in draft or main namespace. Don't load in main page
 if ((pageName.indexOf('Draft:') !== -1) || (namespaceNumber == 0) && (mainpagecheck == null)) {
 //Only load in Wikipedias
 if ( noticeProject === "wikipedia" ) {
-$("#siteNotice").append( toolsdropdown.$element );
+$("#p-navigation").append( toolsdropdown.$element );
 }
 //Only load in English Wikipedia
 if ( mwDBname === "enwiki" ) {
-$("#siteNotice").append( enwikitoolsdropdown.$element );
+$("#p-navigation").append( enwikitoolsdropdown.$element );
 }
 }
 // Article and draft only links end
