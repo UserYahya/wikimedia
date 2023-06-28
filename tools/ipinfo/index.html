@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A simple IP tool that provides IP information, IP location, and map.">
+  <title>A simple IP tool with map</title>
+  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/0/09/IP_address_icon.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/0/09/IP_address_icon.png">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="">
+  <style>
+    form { display: flex; flex-direction: column; align-items: center; margin: 50px; padding: 20px; border: 1px solid gray; border-radius: 10px; }
+label, input[type="text"], button[type="submit"] { margin: 10px 0; width: 200px; }
+.output { display: none; margin: 50px; padding: 20px; border: 1px solid gray; border-radius: 10px; }
+ul { list-style-type: none; padding: 0; }
+li { margin: 10px 0; }
+#map { width: 100%; height: 400px; margin: 10px 0; border: 1px solid gray; }
+  </style>
+</head>
+<body>
+	<h1><center>Simple IP tool</center></h1>
+	<p><center>This tool provides IP information (from ipinfo.io API) and IP location on openstreet map.</center></p>
+  <form>
+    <label for="ip-address">Enter IP address:<br><small>Automatically fills with your own IP. Change it and click submit.</small></label>
+    <input type="text" id="ip-address" name="ip-address">
+    <button type="submit">Submit</button>
+  </form>
+  <div class="output">
+    <p>IP Information:</p>
+    <ul id="ip-info"></ul>
+  </div>
+  <div id="map"></div>
+  <p><center>Limitation: This tool is built using ipinfo.io's free subscription. So this can't provide information more than 50k times per month.</center></p>
+  <footer style="color: blue;"><center>Made with <strong><a href="https://chat.openai.com">ChatGPT</a></strong> by <strong><a href="https://meta.wikimedia.org/wiki/User:Yahya">Yahya</a></strong>. Source code available on <a href="https://github.com/UserYahya/wikimedia/blob/main/tools/ip-info.html">GitHub</a>.</center></footer>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+  <script>
+    const form = document.querySelector("form");
+    const ipAddressInput = document.querySelector("#ip-address");
+    const output = document.querySelector(".output");
+    const ipInfoList = document.querySelector("#ip-info");
+    const mapContainer = document.querySelector("#map");
+    let map;
+
+    // Fetch the visitor's current IP address
+    fetch("https://api.ipify.org?format=json")
+      .then((response) => response.json())
+      .then((data) => {
+        // Pre-fill the input box with the visitor's current IP address
+        ipAddressInput.value = data.ip;
+      });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const ipAddress = ipAddressInput.value;
+
+      // Fetch the IP information using AJAX
+      fetch(`get_ip_info.php?ip=${ipAddress}`)
+        .then((response) => response.json())
+        .then((data) => {
+          // Display the IP information
+          output.style.display = "block";
+          ipInfoList.innerHTML = `
+            <li>IP: ${data.ip}</li>
+            <li>Hostname: ${data.hostname}</li>
+            <li>City: ${data.city}</li>
+            <li>Region: ${data.region}</li>
+            <li>Country: ${data.country}</li>
+            <li>Location: ${data.loc}</li>
+            <li>Organization: ${data.org}</li>
+            <li>Postal: ${data.postal}</li>
+            <li>Timezone: ${data.timezone}</li>
+          `;
+
+          // Create the OpenStreetMap map
+          const latLng = data.loc.split(",");
+          const lat = parseFloat(latLng[0]);
+          const lng = parseFloat(latLng[1]);
+
+          if (!map) {
+            map = L.map(mapContainer).setView([lat, lng], 13);
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+              attribution: "Map data ? <a href='https://openstreetmap.org'>OpenStreetMap</a> contributors",
+            }).addTo(map);
+          } else {
+            map.setView([lat, lng], 13);
+          }
+
+          L.marker([lat, lng]).addTo(map);
+        });
+    });
+  </script>
+</body>
+</html>
