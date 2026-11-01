@@ -14,14 +14,20 @@
  *  - wide tables scroll sideways instead of widening the page (phones, tablets)
  *  - infoboxes and sidebars become full width on phones
  *  - slightly larger text, inputs and tap targets on phones
+ *  - a one-row header on phones: the wordmark is hidden and the icons sit closer
  *  - a "Mobile layout: on/off" link in the user menu to switch it off per device
  *
  * Nothing changes at desktop widths (1120px and up), on other skins or in print.
  *
- * Install: save this file as User:<name>/vector-2022-mobile.js (Meta-Wiki for
- * all wikis) and load it from User:<name>/global.js or common.js:
+ * Install (fastest): paste this whole file into User:<name>/vector-2022.js on the
+ * wiki (loaded only in Vector 2022), or into meta:User:<name>/global.js for all
+ * wikis. ResourceLoader then serves it minified, in the same request as your
+ * other user scripts, from a versioned URL browsers cache for weeks.
  *
- *   mw.loader.load( '//meta.wikimedia.org/w/index.php?title=User:<name>/vector-2022-mobile.js&action=raw&ctype=text/javascript' );
+ * Install (alternative): keep one copy on Meta-Wiki and import it. This costs an
+ * extra request after your global.js has run, so the layout switches later:
+ *
+ *   mw.loader.load( '//meta.wikimedia.org/w/index.php?title=User:<name>/vector-2022-mobile.js&action=raw&ctype=text/javascript&smaxage=86400' );
  *
  * Options (set before the script loads, all optional):
  *
@@ -29,6 +35,7 @@
  *     tables: true,   // wrap wide tables so they scroll sideways
  *     infobox: true,  // full-width infoboxes and sidebars on phones
  *     text: true,     // 16px body text on phones when Vector's text size is "Small"
+ *     hideLogo: true, // hide the wordmark on phones so the header fits on one row
  *     menuLink: true, // on/off link in the user menu
  *     labels: { on: '…', off: '…', tooltip: '…' }
  *   };
@@ -68,6 +75,7 @@
 		tables: true,
 		infobox: true,
 		text: true,
+		hideLogo: true,
 		menuLink: true,
 		labels: null
 	}, window.vector2022MobileConfig );
@@ -145,9 +153,16 @@
 			// 16px side gutters instead of 24px: ~10% more room for content on a phone.
 			h + ' .mw-page-container,\n' +
 			h + ' .vector-header-container .mw-header { padding-left: 16px; padding-right: 16px; }\n' +
+			// One row for the menu button and the icons: smaller gaps, icons 1px apart
+			// instead of 8px, a narrower user-menu button, and (by default) no wordmark.
 			h + ' .mw-header { gap: 8px; }\n' +
-			h + ' .mw-header .vector-header-start { gap: 12px; }\n' +
+			h + ' .mw-header .vector-header-start { gap: 8px; }\n' +
 			h + ' .mw-logo-tagline { display: none; }\n' +
+			( options.hideLogo ? h + ' .mw-logo-container { display: none; }\n' : '' ) +
+			h + ' .vector-user-links .mw-list-item,\n' +
+			h + ' .vector-user-links .vector-dropdown-label { margin-left: 1px; margin-right: 1px; }\n' +
+			h + ' .vector-user-links .vector-dropdown-content .mw-list-item { margin: 0; }\n' +
+			h + ' .vector-user-menu-logged-in .vector-dropdown-label { padding-left: 4px; padding-right: 4px; }\n' +
 			// A 16px input stops iOS Safari from zooming in when the search box is focused.
 			h + ' .vector-search-box .cdx-text-input__input { font-size: 1rem; }\n' +
 			// Tap targets of about 40px in dropdown menus and the table of contents.

@@ -34,24 +34,34 @@ switches the built-in responsive mode on from the browser and adds a few touch-u
 * wide tables scroll sideways instead of widening the page (phones and tablets)
 * infoboxes and sidebars become full width on phones
 * slightly larger text, a 16px search input (no iOS zoom on focus) and bigger tap targets on phones
+* a one-row header on phones: the wordmark is hidden and the menu button and icons sit close together
 * a "Mobile layout: on/off" link in the user menu ("মোবাইল বিন্যাস: চালু/বন্ধ" in Bengali) to switch it off per device
 
 Nothing changes at desktop widths (1120px and up), on other skins, in print or in night mode.
 On a phone, pick "Desktop" at the bottom of the mobile site first; otherwise Wikimedia serves the
 Minerva skin and the script does nothing.
 
-Install: save the file as `User:<Name>/vector-2022-mobile.js` on Meta-wiki and add to
-[meta:User:`<Name>`/global.js](https://meta.wikimedia.org/wiki/Special:MyPage/global.js):
+Install (fastest): paste the whole file into `User:<Name>/vector-2022.js` on the wiki (loaded
+only in Vector 2022) or into [meta:User:`<Name>`/global.js](https://meta.wikimedia.org/wiki/Special:MyPage/global.js)
+for all wikis. ResourceLoader then serves it minified, in the same request as your other user
+scripts, from a versioned URL that browsers cache for weeks.
+
+Install (alternative): keep one copy at `User:<Name>/vector-2022-mobile.js` on Meta-wiki and
+import it from `global.js` or `common.js`:
 
   ```javascript
   // [[File:User:Yahya/vector-2022-mobile.js]]
-  mw.loader.load( '//meta.wikimedia.org/w/index.php?title=User:Yahya/vector-2022-mobile.js&action=raw&ctype=text/javascript' );
+  mw.loader.load( '//meta.wikimedia.org/w/index.php?title=User:Yahya/vector-2022-mobile.js&action=raw&ctype=text/javascript&smaxage=86400' );
   ```
 
-Options go before that line (all optional):
+This needs an extra request after `global.js` has run, so the layout switches a little later.
+A short flash of the desktop layout is unavoidable either way: the viewport can only be changed
+from JavaScript, and user scripts run after MediaWiki's own scripts have loaded.
+
+Options go before the script (all optional):
 
   ```javascript
-  window.vector2022MobileConfig = { tables: true, infobox: true, text: true, menuLink: true, labels: { on: '…', off: '…', tooltip: '…' } };
+  window.vector2022MobileConfig = { tables: true, infobox: true, text: true, hideLogo: true, menuLink: true, labels: { on: '…', off: '…', tooltip: '…' } };
   ```
 
 Tests and a headless-browser check for this script live in
